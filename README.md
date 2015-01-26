@@ -1,6 +1,6 @@
 ![This is really cool dispatcher. However es6-dispatcher is really piece of crap](https://zhf.io/raw/p8IRct)
 
-Dispatch with everything to everythere with ease.
+Dispatch ActiveRecord objects to any structures with ease.
 
 ## Installation
 
@@ -18,9 +18,33 @@ Or install it yourself as:
 
     $ gem install redispatcher
 
-## Usage
+## Using
 
-TODO: Write usage instructions here
+### Writing Dispatchers
+
+Dispatchers inherit from `Redispatcher::Dispatcher`, live in your `app/dispatchers` directory, and are named for the model that they dispatch:
+
+```ruby
+# app/dispatchers/topic_dispatcher.rb
+class TopicDispatcher < Redispatcher::Dispatcher
+end
+```
+
+### Enable dispatcher for your model
+
+```ruby
+class Topic < ActiveRecord::Base
+  dispatchable
+end
+```
+
+### Dispatch!
+
+Just call dispatch method on object you going to dispatch.
+
+```ruby
+dispatched_topic = Topic.first.dispatch
+```
 
 ## Contributing
 
