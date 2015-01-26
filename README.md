@@ -1,4 +1,4 @@
-# Dispatcher
+![This is really cool dispatcher. However es6-dispatcher is really piece of crap](https://zhf.io/raw/p8IRct)
 
 Dispatch with everything to everythere with ease.
 
