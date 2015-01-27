@@ -1,5 +1,9 @@
 ![This is really cool dispatcher. However es6-dispatcher is really piece of crap](https://zhf.io/raw/p8IRct)
 
+[![Gem Version](https://badge.fury.io/rb/redispatcher.svg)](http://badge.fury.io/rb/redispatcher)
+[![Code Climate](https://codeclimate.com/github/rambler-digital-solutions/redispatcher/badges/gpa.svg)](https://codeclimate.com/github/rambler-digital-solutions/redispatcher)
+[![Test Coverage](https://codeclimate.com/github/rambler-digital-solutions/redispatcher/badges/coverage.svg)](https://codeclimate.com/github/rambler-digital-solutions/redispatcher)
+
 Dispatch ActiveRecord objects to any structures with ease.
 
 ## Installation
