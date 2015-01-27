@@ -34,6 +34,29 @@ class TopicDispatcher < Redispatcher::Dispatcher
 end
 ```
 
+
+Do not hesitate to use dispatscher's callbacks `before_` and `after_` `initialize`, `process`, `commit`, `rollback` just like that:
+
+```ruby
+# app/dispatchers/topic_dispatcher.rb
+class TopicDispatcher < Redispatcher::Dispatcher
+
+  after_initialize do
+    @processed_object = {}
+  end
+
+  before_process do
+    @processed_object.merge! title: object.title
+  end
+
+  after_commit :update_mongodb
+
+  def update_mongodb
+    MONGO['topics'].update({ id: object.id }, processed_object, upsert: true)
+  end
+end
+```
+
 ### Enable dispatcher for your model
 
 ```ruby
