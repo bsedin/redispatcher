@@ -3,7 +3,7 @@ module Redispatcher
     # Log a dispatcher-specific line. This will log to STDOUT
     # by default.
     # Set Dispatcher.options[:log] to false to turn off.
-    def log message
+    def log(message)
       logger.info("[redispatcher] #{message}") if logging?
     end
 

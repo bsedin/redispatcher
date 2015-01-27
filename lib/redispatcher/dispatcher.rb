@@ -44,21 +44,23 @@ module Redispatcher
     end
 
     class << self
+      attr_accessor :instance
+
       def dispatch(object, options={})
-        @dispatcher = new(object, options)
+        @instance = new(object, options)
 
         begin
-          @dispatcher.process
+          instance.process
         rescue DispatcherSuppressedError => e
-          log e
+          instance.log e
           return nil
         end
 
         begin
-          return @dispatcher.commit
+          return instance.commit
         rescue Exception => e
-          log e
-          @dispatcher.rollback
+          instance.log e
+          instance.rollback
           raise e
         end
       end
