@@ -10,7 +10,6 @@ module Redispatcher
         define_callbacks(*callbacks.flatten)
 
         callbacks.each do |callback|
-          puts callback
           eval <<-end_callbacks
             def before_#{callback}(*args, &block)
               set_callback(:#{callback}, :before, *args, &block)
