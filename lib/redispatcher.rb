@@ -20,19 +20,16 @@ class << ActiveRecord::Base
       end
     end
 
-    # Include instance methods
-    include Redispatcher::Dispatchable::InstanceMethods
+    include Redispatcher::Callbacks
+    define_dispatcher_callbacks
 
-    # Include dynamic class methods
-    extend Redispatcher::Dispatchable::ClassMethods
+    include Redispatcher::Dispatchable
 
     # Create dispatcher class accessor and set to option or default
     #cattr_accessor :dispatcher_class
     #self.dispatcher_class = option[:dispatcher_class]
 
-    include Redispatcher::Callbacks
-
-    # after_commit :dispatch
+    after_commit :dispatch
   end
 end
 

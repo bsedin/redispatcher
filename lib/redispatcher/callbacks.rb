@@ -1,16 +1,29 @@
 module Redispatcher
   module Callbacks
-    extend ActiveSupport::Concern
+    def self.included(base)
+      base.extend(ClassMethods)
+      base.send(:include, InstanceMethods)
+    end
 
-    included do
-      define_callbacks :dispatch¬
+    module ClassMethods
+      def define_dispatcher_callbacks
+        define_callbacks :dispatch
 
-      def before_dispatch(*args, &blk)
-        set_callback(:dispatch, :before, *args, &blk)
+        eval <<-end_callbacks
+          def before_dispatch(*args, &block)
+            set_callback(:dispatch, :before, *args, &block)
+          end
+
+          def after_dispatch(*args, &block)
+            set_callback(:dispatch, :after, *args, &block)
+          end
+        end_callbacks
       end
+    end
 
-      def after_dispatch(*args, &blk)
-        set_callback(:dispatch, :after, *args, &blk)
+    module InstanceMethods
+      def run_dispatcher_callbacks(&block)
+        run_callbacks(:dispatch, &block)
       end
     end
   end

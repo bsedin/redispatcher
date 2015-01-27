@@ -1,13 +1,19 @@
 module Redispatcher
   module Dispatchable
+    def self.included(base)
+      base.extend(ClassMethods)
+      base.send(:include, InstanceMethods)
+    end
+
     module InstanceMethods
-      extend ActiveSupport::Concern
 
       # Decorates the object using the inferred {#dispatcher_class}.
       # @param [Hash] options
       #   see {Redispatcher::Dispatcher#initialize}
       def dispatch(options = {})
-        dispatcher_class.dispatch(self, options)
+        run_dispatcher_callbacks do
+          dispatcher_class.dispatch(self, options)
+        end
       end
 
       # (see Dispatchable::ClassMethods#dispatcher_class)
