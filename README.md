@@ -26,16 +26,24 @@ Or install it yourself as:
 
 ### Writing Dispatchers
 
-Dispatchers inherit from `Redispatcher::Dispatcher`, live in your `app/dispatchers` directory, and are named for the model that they dispatch:
+Dispatchers inherit from `Redispatcher::Dispatcher`, live in your `app/dispatchers` directory, and are named for the model that they dispatch.
+
+You can use rails generator to generate dispatcher:
+
+```
+rails g dispatcher Topic
+```
+
+This will create TopicDispatcher:
 
 ```ruby
 # app/dispatchers/topic_dispatcher.rb
 class TopicDispatcher < Redispatcher::Dispatcher
+  # ...
 end
 ```
 
-
-Do not hesitate to use dispatscher's callbacks `before_` and `after_` `initialize`, `process`, `commit`, `rollback` just like that:
+Do not hesitate to use dispatscher's callbacks `before_initialize`, `after_initialize`, `before_process`, `after_process`, `before_commit`, `after_commit`, `before_rollback`, `after_rollback` just like that:
 
 ```ruby
 # app/dispatchers/topic_dispatcher.rb
