@@ -21,7 +21,7 @@ class << ActiveRecord::Base
     end
 
     include Redispatcher::Callbacks
-    define_dispatcher_callbacks
+    define_dispatcher_callbacks :dispatch
 
     include Redispatcher::Dispatchable
 

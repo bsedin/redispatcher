@@ -1,15 +1,16 @@
 module Redispatcher
   class Dispatcher
     include ActiveSupport::Callbacks
+    include Callbacks
     include Logger
 
-    define_callbacks :initialize, :process, :commit, :rollback
+    define_dispatcher_callbacks(:initialize, :process, :commit, :rollback)
 
-    set_callback :commit, :after do
+    after_commit do
       log "successfully dispatched"
     end
 
-    set_callback :rollback, :after do
+    after_rollback do
       log "dispatching failed"
     end
 
@@ -18,26 +19,26 @@ module Redispatcher
     def initialize(object, options={})
       @object = object
       @options = options
-      run_callbacks :initialize do
+      run_dispatcher_callbacks :initialize do
         log "initialize callback"
       end
     end
 
     def process
-      run_callbacks :process do
+      run_dispatcher_callbacks :process do
         log "process callback"
       end
     end
 
     def commit
-      run_callbacks :commit do
+      run_dispatcher_callbacks :commit do
         log "commit callback"
       end
       processed_object
     end
 
     def rollback
-      run_callbacks :rollback do
+      run_dispatcher_callbacks :rollback do
         log "rollback callback"
       end
     end

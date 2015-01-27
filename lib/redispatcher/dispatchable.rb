@@ -11,7 +11,7 @@ module Redispatcher
       # @param [Hash] options
       #   see {Redispatcher::Dispatcher#initialize}
       def dispatch(options = {})
-        run_dispatcher_callbacks do
+        run_dispatcher_callbacks :dispatch do
           dispatcher_class.dispatch(self, options)
         end
       end

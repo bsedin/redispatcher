@@ -6,24 +6,27 @@ module Redispatcher
     end
 
     module ClassMethods
-      def define_dispatcher_callbacks
-        define_callbacks :dispatch
+      def define_dispatcher_callbacks(*callbacks)
+        define_callbacks(*callbacks.flatten)
 
-        eval <<-end_callbacks
-          def before_dispatch(*args, &block)
-            set_callback(:dispatch, :before, *args, &block)
-          end
+        callbacks.each do |callback|
+          puts callback
+          eval <<-end_callbacks
+            def before_#{callback}(*args, &block)
+              set_callback(:#{callback}, :before, *args, &block)
+            end
 
-          def after_dispatch(*args, &block)
-            set_callback(:dispatch, :after, *args, &block)
-          end
-        end_callbacks
+            def after_#{callback}(*args, &block)
+              set_callback(:#{callback}, :after, *args, &block)
+            end
+          end_callbacks
+        end
       end
     end
 
     module InstanceMethods
-      def run_dispatcher_callbacks(&block)
-        run_callbacks(:dispatch, &block)
+      def run_dispatcher_callbacks(callback, &block)
+        run_callbacks(callback, &block)
       end
     end
   end
