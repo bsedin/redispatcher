@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Sergey Besedin']
   spec.email         = ['kr3ssh@gmail.com']
   spec.summary       = %q{Gem to dispatch ActiveRecord objects to anywhere}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.description   = %q{}
   spec.homepage      = 'https://github.com/rambler-digital-solutions/redispatcher'
   spec.license       = 'MIT'
 
