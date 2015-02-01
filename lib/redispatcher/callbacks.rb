@@ -1,6 +1,7 @@
 module Redispatcher
   module Callbacks
     def self.included(base)
+      base.send(:include, ActiveSupport::Callbacks)
       base.extend(ClassMethods)
       base.send(:include, InstanceMethods)
     end
