@@ -10,7 +10,7 @@ module Rails
         template 'dispatcher.rb', File.join('app/dispatchers', class_path, "#{file_name}_dispatcher.rb")
       end
 
-      #hook_for :test_framework
+      hook_for :test_framework
 
       private
 
