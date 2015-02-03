@@ -1,10 +1,12 @@
-![This is really cool dispatcher. However es6-dispatcher is really piece of crap](https://zhf.io/raw/p8IRct)
+![Redispatcher](https://zhf.io/raw/p8IRct)
 
 [![Gem Version](https://badge.fury.io/rb/redispatcher.svg)](http://badge.fury.io/rb/redispatcher)
 [![Code Climate](https://codeclimate.com/github/rambler-digital-solutions/redispatcher/badges/gpa.svg)](https://codeclimate.com/github/rambler-digital-solutions/redispatcher)
 [![Test Coverage](https://codeclimate.com/github/rambler-digital-solutions/redispatcher/badges/coverage.svg)](https://codeclimate.com/github/rambler-digital-solutions/redispatcher)
 
-Dispatch ActiveRecord objects to any structures with ease.
+This gem provides delivery of objects from database to any structure with power of callbacks.
+
+Supporting ORM is ActiveRecord and Sequel (through [sequel-rails](https://github.com/TalentBox/sequel-rails) gem)
 
 ## Installation
 
@@ -67,8 +69,18 @@ end
 
 ### Enable dispatcher for your model
 
+With ActiveRecord:
+
 ```ruby
 class Topic < ActiveRecord::Base
+  dispatchable
+end
+```
+
+With Sequel:
+
+```ruby
+class Topic < Sequel::Model
   dispatchable
 end
 ```
@@ -80,6 +92,10 @@ Just call dispatch method on object you going to dispatch.
 ```ruby
 dispatched_topic = Topic.first.dispatch
 ```
+
+## License
+
+Redispatcher is licensed under the MIT license. See LICENSE for full license text.
 
 ## Contributing
 

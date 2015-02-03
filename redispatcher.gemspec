@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = 'redispatcher'
-  spec.version       = '0.0.2'
+  spec.version       = '0.0.3'
   spec.authors       = ['Sergey Besedin']
   spec.email         = ['kr3ssh@gmail.com']
   spec.summary       = %q{Gem to dispatch ActiveRecord objects to anywhere}
@@ -19,12 +19,16 @@ Gem::Specification.new do |spec|
     LICENSE.txt
     README.md
     Rakefile
+    lib/generators/rails/dispatcher_generator.rb
+    lib/generators/rails/templates/dispatcher.rb
     lib/redispatcher.rb
     lib/redispatcher/callbacks.rb
     lib/redispatcher/dispatchable.rb
+    lib/redispatcher/dispatchable_method.rb
     lib/redispatcher/dispatcher.rb
     lib/redispatcher/exceptions.rb
     lib/redispatcher/logger.rb
+    lib/redispatcher/railtie.rb
     redispatcher.gemspec
   )
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
