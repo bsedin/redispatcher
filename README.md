@@ -6,7 +6,7 @@
 
 This gem provides delivery of objects from database to any structure with power of callbacks.
 
-Supporting ORM is ActiveRecord and Sequel (through [sequel-rails](https://github.com/TalentBox/sequel-rails) gem)
+Supporting ORM are ActiveRecord and Sequel (through [sequel-rails](https://github.com/TalentBox/sequel-rails) gem)
 
 ## Installation
 
