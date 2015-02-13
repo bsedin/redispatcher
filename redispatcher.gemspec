@@ -30,11 +30,14 @@ Gem::Specification.new do |spec|
     lib/redispatcher/logger.rb
     lib/redispatcher/railtie.rb
     redispatcher.gemspec
+    spec/redispatcher/basic_spec.rb
+    spec/spec_helper.rb
   )
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
   spec.add_dependency 'rails', '>= 4.0'
   spec.add_development_dependency 'bundler', '~> 1.7'
+  spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'rake', '~> 10.0'
 end
