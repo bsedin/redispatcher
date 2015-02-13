@@ -3,6 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/redispatcher.svg)](http://badge.fury.io/rb/redispatcher)
 [![Code Climate](https://codeclimate.com/github/rambler-digital-solutions/redispatcher/badges/gpa.svg)](https://codeclimate.com/github/rambler-digital-solutions/redispatcher)
 [![Test Coverage](https://codeclimate.com/github/rambler-digital-solutions/redispatcher/badges/coverage.svg)](https://codeclimate.com/github/rambler-digital-solutions/redispatcher)
+[![Build Status](https://travis-ci.org/rambler-digital-solutions/redispatcher.svg?branch=master)](https://travis-ci.org/rambler-digital-solutions/redispatcher)
 
 This gem provides delivery of objects from database to any structure with power of callbacks.
 
