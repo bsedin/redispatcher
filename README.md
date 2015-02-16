@@ -1,4 +1,4 @@
-![Redispatcher](https://zhf.io/raw/p8IRct)
+![Redispatcher](https://zhf.io/p8IRct/raw)
 
 [![Gem Version](https://badge.fury.io/rb/redispatcher.svg)](http://badge.fury.io/rb/redispatcher)
 [![Code Climate](https://codeclimate.com/github/rambler-digital-solutions/redispatcher/badges/gpa.svg)](https://codeclimate.com/github/rambler-digital-solutions/redispatcher)
