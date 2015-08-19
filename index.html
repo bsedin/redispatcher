@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Redispatcher : http://kressh.github.io/redispatcher">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Redispatcher</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/kressh/redispatcher">View on GitHub</a>
+
+          <h1 id="project_title">Redispatcher</h1>
+          <h2 id="project_tagline">http://kressh.github.io/redispatcher</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/kressh/redispatcher/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/kressh/redispatcher/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p><img src="https://zhf.io/p8IRct/raw" alt="Redispatcher"></p>
+
+<p><a href="http://badge.fury.io/rb/redispatcher"><img src="https://badge.fury.io/rb/redispatcher.svg" alt="Gem Version"></a>
+<a href="https://codeclimate.com/github/rambler-digital-solutions/redispatcher"><img src="https://codeclimate.com/github/rambler-digital-solutions/redispatcher/badges/gpa.svg" alt="Code Climate"></a>
+<a href="https://codeclimate.com/github/rambler-digital-solutions/redispatcher"><img src="https://codeclimate.com/github/rambler-digital-solutions/redispatcher/badges/coverage.svg" alt="Test Coverage"></a>
+<a href="https://travis-ci.org/rambler-digital-solutions/redispatcher"><img src="https://travis-ci.org/rambler-digital-solutions/redispatcher.svg?branch=master" alt="Build Status"></a></p>
+
+<p>This gem provides delivery of objects from database to any structure with power of callbacks.</p>
+
+<p>Supporting ORM are ActiveRecord and Sequel (through <a href="https://github.com/TalentBox/sequel-rails">sequel-rails</a> gem)</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Add this line to your application's Gemfile:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">gem</span> <span class="pl-s"><span class="pl-pds">'</span>redispatcher<span class="pl-pds">'</span></span></pre></div>
+
+<p>And then execute:</p>
+
+<pre><code>$ bundle
+</code></pre>
+
+<p>Or install it yourself as:</p>
+
+<pre><code>$ gem install redispatcher
+</code></pre>
+
+<h2>
+<a id="using" class="anchor" href="#using" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using</h2>
+
+<h3>
+<a id="writing-dispatchers" class="anchor" href="#writing-dispatchers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Writing Dispatchers</h3>
+
+<p>Dispatchers inherit from <code>Redispatcher::Dispatcher</code>, live in your <code>app/dispatchers</code> directory, and are named for the model that they dispatch.</p>
+
+<p>You can use rails generator to generate dispatcher:</p>
+
+<pre><code>rails g dispatcher Topic
+</code></pre>
+
+<p>This will create TopicDispatcher:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-c"># app/dispatchers/topic_dispatcher.rb</span>
+<span class="pl-k">class</span> <span class="pl-en">TopicDispatcher<span class="pl-e"> &lt; Redispatcher::Dispatcher</span></span>
+  <span class="pl-c"># ...</span>
+<span class="pl-k">end</span></pre></div>
+
+<p>Do not hesitate to use dispatscher's callbacks <code>before_initialize</code>, <code>after_initialize</code>, <code>before_process</code>, <code>after_process</code>, <code>before_commit</code>, <code>after_commit</code>, <code>before_rollback</code>, <code>after_rollback</code> just like that:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-c"># app/dispatchers/topic_dispatcher.rb</span>
+<span class="pl-k">class</span> <span class="pl-en">TopicDispatcher<span class="pl-e"> &lt; Redispatcher::Dispatcher</span></span>
+
+  after_initialize <span class="pl-k">do</span>
+    <span class="pl-smi">@processed_object</span> <span class="pl-k">=</span> {}
+  <span class="pl-k">end</span>
+
+  before_process <span class="pl-k">do</span>
+    <span class="pl-smi">@processed_object</span>.merge! <span class="pl-c1">title:</span> object.title
+  <span class="pl-k">end</span>
+
+  after_commit <span class="pl-c1">:update_mongodb</span>
+
+  <span class="pl-k">def</span> <span class="pl-en">update_mongodb</span>
+    <span class="pl-c1">MONGO</span>[<span class="pl-s"><span class="pl-pds">'</span>topics<span class="pl-pds">'</span></span>].update({ <span class="pl-c1">id:</span> object.id }, processed_object, <span class="pl-c1">upsert:</span> <span class="pl-c1">true</span>)
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span></pre></div>
+
+<h3>
+<a id="enable-dispatcher-for-your-model" class="anchor" href="#enable-dispatcher-for-your-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Enable dispatcher for your model</h3>
+
+<p>With ActiveRecord:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">Topic<span class="pl-e"> &lt; ActiveRecord::Base</span></span>
+  dispatchable
+<span class="pl-k">end</span></pre></div>
+
+<p>With Sequel:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">Topic<span class="pl-e"> &lt; Sequel::Model</span></span>
+  dispatchable
+<span class="pl-k">end</span></pre></div>
+
+<h3>
+<a id="dispatch" class="anchor" href="#dispatch" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dispatch!</h3>
+
+<p>Just call dispatch method on object you going to dispatch.</p>
+
+<div class="highlight highlight-ruby"><pre>dispatched_topic <span class="pl-k">=</span> <span class="pl-c1">Topic</span>.first.dispatch</pre></div>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Redispatcher is licensed under the MIT license. See LICENSE for full license text.</p>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<ol>
+<li>Fork it ( <a href="https://github.com/rambler-digital-solutions/redispatcher/fork">https://github.com/rambler-digital-solutions/redispatcher/fork</a> )</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create a new Pull Request</li>
+</ol>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Redispatcher maintained by <a href="https://github.com/kressh">kressh</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
